@@ -1,0 +1,57 @@
+﻿<Window x:Class="WPFCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCalculator"
+        mc:Ignorable="d"
+        Title="Calculator" Height="550" Width="350">
+    <Grid x:Name="contents">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <!--This is the display label-->
+        <Label Grid.RowSpan="2" Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Content="0" Style="{ StaticResource result }" x:Name="Result" />
+        
+        <!--The following are the modifier buttons (AC,+/-,%)-->
+        <Button Grid.Row="2" Content="AC"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="+/-"/>
+        <Button Grid.Row="2" Grid.Column="2" Content="%"/>
+        
+        <!--The following are the operation buttons-->
+        <Button Grid.Row="2" Grid.Column="3" Content="/"  Style="{StaticResource operation}"/>
+        <Button Grid.Row="3" Grid.Column="3" Content="*"  Style="{StaticResource operation}"/>
+        <Button Grid.Row="4" Grid.Column="3" Content="-"  Style="{StaticResource operation}"/>
+        <Button Grid.Row="5" Grid.Column="3" Content="+"  Style="{StaticResource operation}"/>
+        <Button Grid.Row="6" Grid.Column="3" Content="="  Style="{StaticResource operation}"/>
+
+        <!--The following are the number buttons-->
+        <Button Grid.Row="3" Content="7" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="3" Grid.Column="1" Content="8" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="3" Grid.Column="2" Content="9" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="4" Grid.Column="0" Content="4" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="4" Grid.Column="1" Content="5" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="4" Grid.Column="2" Content="6" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="5" Grid.Column="0" Content="1" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="5" Grid.Column="1" Content="2" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="5" Grid.Column="2" Content="3" Style="{StaticResource number}" Click="numberHandler" />
+        <Button Grid.Row="6" Grid.ColumnSpan="2" Content="0" Style="{StaticResource number}" Click="numberHandler"/>
+        <Button Grid.Row="6" Grid.Column="2" Content="." Style="{StaticResource number}" />
+
+
+    </Grid>
+</Window>
