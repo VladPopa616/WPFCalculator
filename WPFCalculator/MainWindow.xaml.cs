@@ -47,10 +47,16 @@ namespace WPFCalculator
 
         private RoutedEventHandler AssignClick(string content)
         {
+            //const string Number = @"^\d+$";
             const string operation = @"^(\+|\-|\*|\/)$";
             const string specialOperation = @"^(\+\/\-|\%|AC|=|\.)$";
 
             RoutedEventHandler events = (a, b) => Trace.WriteLine("Unknown");
+
+            //if (Regex.IsMatch(content, Number))
+            //{
+                //events = (a, b) => HandleNumber(content);
+            //}
 
             if (Regex.IsMatch(content, operation))
             {
@@ -82,6 +88,98 @@ namespace WPFCalculator
                 case "/": operators = SelectedOperator.Division; break;
 
             }
+        }
+
+        private void HandleNumber(object sender,RoutedEventArgs eventArgs)
+        {
+            string number = ((Button)eventArgs.Source).Content.ToString();
+            HandleSecondNumber();
+
+            if(operators != null && lastNumber == null)
+            {
+                lastNumber = double.Parse(Result.Content.ToString());
+                Result.Content = number;
+            }
+            else
+            {
+                Result.Content = Result.Content.ToString().Equals("0") ? number : Result.Content + number;
+            }
+        }
+
+        private void HandleEquals(object sender, RoutedEventArgs eventArgs)
+        {
+            try
+            {
+                result = DoOperation(operators, double.Parse(lastNumber.ToString()), double.Parse(Result.Content.ToString()));
+                Result.Content = result;
+            }
+            catch (Exception ex) when (ex is ArithmeticException || ex is DivideByZeroException)
+            {
+                MessageBox.Show("Invalid operation", "An error has occured", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch(Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+            Reset();
+        }
+
+        private void HandleAC(object sender, RoutedEventArgs eventArgs)
+        {
+            Reset();
+            Result.Content = "0";
+        }
+
+        private void HandlePercent(object sender, RoutedEventArgs eventArgs)
+        {
+            result = null;
+            Result.Content = double.Parse(Result.Content.ToString()) * ((lastNumber ?? 1) / 100);
+        }
+
+        private void HandleDecimalPeriod(object sender, RoutedEventArgs eventArgs)
+        {
+            HandleSecondNumber();
+            if (!Result.Content.ToString().Contains("."))
+            {
+                Result.Content += ".";
+            }
+        }
+
+        private void HandlePlusMinus(object sender, RoutedEventArgs eventArgs)
+        {
+            Result.Content = double.Parse(Result.Content.ToString()) * -1;
+        }
+
+        private RoutedEventHandler AssignSpecialOperationHandler(string operation)
+        {
+            switch (operation)
+            {
+                case "=": return HandleEquals; 
+                case "AC": return HandleAC;
+                case "+/-": return HandlePlusMinus;
+                case "%": return HandlePercent;
+                case ".": return HandleDecimalPeriod;
+                default: return (a, b) => Trace.WriteLine("Unknown");
+
+            }
+        }
+
+        private double? DoOperation(SelectedOperator? so,double x, double y)
+        {
+            switch (so)
+            {
+                case SelectedOperator.Addition: return OperationHandlers.Add(x, y);
+                case SelectedOperator.Subtraction: return OperationHandlers.Subtract(x, y);
+                case SelectedOperator.Multiplication: return OperationHandlers.Multiply(x, y);
+                case SelectedOperator.Division: return OperationHandlers.Divide(x, y);
+                default: return null;
+            }
+        }
+
+        private void Reset()
+        {
+            lastNumber = null;
+            operators = null;
         }
     }
 }
