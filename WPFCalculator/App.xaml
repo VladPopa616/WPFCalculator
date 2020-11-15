@@ -4,6 +4,34 @@
              xmlns:local="clr-namespace:WPFCalculator"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Button">
+
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="FontSize" Value="24"/>
+
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Style.Resources>
+            
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="operation">
+            <Setter Property="Background" Value="#ffa500"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}" x:Key="number">
+            <Setter Property="Background" Value="#444444"/>
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style TargetType="Label" x:Key="result">
+            <Setter Property="FontSize" Value="70"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        </Style>
     </Application.Resources>
 </Application>
